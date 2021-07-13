@@ -1,27 +1,49 @@
-// const inputname = document.querySelector('input[name=name]');
-// const altname = document.querySelector('#alt-name');
+const inputname = document.querySelector('input[name=name]');
+const altname = document.querySelector('#alt-name');
 
-// inputname.addEventListener('focus', () => altname.classList.add('hide'));
-// inputname.addEventListener('blur', event => {
-//   if (event.target.value) altname.classList.add('hide');
-//   else altname.classList.remove('hide');
-// });
+inputname.addEventListener('focus', () => altname.classList.add('hide'));
+inputname.addEventListener('blur', event => {
+  if (event.target.value) altname.classList.add('hide');
+  else altname.classList.remove('hide');
+});
 
-// window.addEventListener('keyup', event => {
-//   let aside = document.querySelector('aside');
-//   let name = document.querySelector('span#name');
-//   if (event.keyCode === 13 && inputname.value) {
-//     event.preventDefault();
-//     name.textContent = inputname.value.toLowerCase();
-//     document.querySelector('body').removeChild(aside);
-//   }
-// });
+let aside = document.querySelector('aside');
+let name = document.querySelector('span#name');
 
-let library = {};
+window.addEventListener('keyup', event => {
+  if (event.keyCode === 13 && inputname.value) {
+    event.preventDefault();
+    name.textContent = inputname.value.toLowerCase();
+    localStorage.setItem('name', JSON.stringify(name.textContent));
+    document.querySelector('body').removeChild(aside);
+  }
+});
+
+if (localStorage.getItem('name')) {
+  name.textContent = JSON.parse(localStorage.getItem('name'));
+  document.querySelector('body').removeChild(aside);
+}
+
+let library = localStorage.getItem('books')
+              ? JSON.parse(localStorage.getItem('books'))
+              : [];
 
 const storage = document.querySelector('#storage');
 const shelves = document.querySelector('#shelves');
 const form = document.querySelector('form');
+
+const Book = function(rating, title, author, pages, status, genre, cover, start, end, review) {
+  this.rating = rating;
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.status = status;
+  this.genre = genre;
+  this.cover = cover;
+  this.start = start;
+  this.end = end;
+  this.review = review;
+}
 
 function makebtn(text) {
   let btn = document.createElement('button');
@@ -29,7 +51,7 @@ function makebtn(text) {
   return btn;
 }
 
-if (!localStorage.length) {
+if (!localStorage.getItem('books')) {
   storage.textContent = 'your shelves are empty';
 } else {
   let clear = makebtn('Delete All Books');
@@ -41,7 +63,8 @@ if (!localStorage.length) {
   storage.appendChild(remove);
 
   clear.addEventListener('click', () => {
-    localStorage.clear();
+    localStorage.removeItem('books');
+    localStorage.setItem('old', 'true');
     location.reload();
   });
 
@@ -57,24 +80,8 @@ if (!localStorage.length) {
     storage.appendChild(remove);
   });
 
-  let keys = Object.keys(localStorage);
-  for (let key of keys) {
-    let book = JSON.parse(localStorage.getItem(key));
-    shelve(book)
-  }
-}
-
-const Book = function(rating, title, author, pages, status, genre, cover, start, end, review) {
-  this.rating = rating;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.status = status;
-  this.genre = genre;
-  this.cover = cover;
-  this.start = start;
-  this.end = end;
-  this.review = review;
+  let books = JSON.parse(localStorage.getItem('books'));
+  shelve(books);
 }
 
 form.addEventListener('submit', e => {
@@ -93,9 +100,8 @@ form.addEventListener('submit', e => {
   });
   fieldvalues.push(review.value);
   let book = new Book(...fieldvalues);
-  let key = `book${localStorage.length}`;
-  library.key = book;
-  localStorage.setItem(JSON.stringify(key), JSON.stringify(library));
+  library.push(book);
+  localStorage.setItem('books', JSON.stringify(library));
   form.reset();
 });
 
@@ -109,20 +115,20 @@ function catalogue(type, classvalue, ...children) {
   return card;
 }
 
-function shelve(book) {
-  for (let element in book) {
-    let key = book[element];
+function shelve(books) {
+  for (let book in books) {
+    let key = books[book];
     let item = catalogue('div', 'item',
     catalogue('div', 'item-top',
       catalogue('div', 'book-info',
         catalogue('div', 'book-by',
           catalogue('div', 'title', key.title),
-          catalogue('div', 'author', `by ${key.author}`)
-          ),
+          catalogue('div', 'author', `by ${key.author}`)),
         catalogue('div', 'book-ex', 
           catalogue('div', '', 
             catalogue('b', '', 'Status: '), key.status)))));
-
+  shelves.appendChild(item);
+  
   if (key.review) {
     let line = catalogue('div', 'item-bottom',
     catalogue('div', 'book-review', 
@@ -140,10 +146,7 @@ function shelve(book) {
     parent.insertBefore(cover, sibling);
   }
 
-  let l;
-  if (key.review) l = 1;
-  else l = 0;
-  let lines = item.childNodes[0].childNodes[l].childNodes[1];
+  let lines = item.firstChild.lastChild.lastChild;
 
   addLine(key.pages, 'Page Count: ');
   addLine(key.genre, 'Genre: ');
@@ -170,8 +173,28 @@ function shelve(book) {
   let remove = catalogue('div', 'remove',
     catalogue('button', 'remove-btn', 'Delete'));
 
+  remove.childNodes[0].addEventListener('click', () => {
+    let temp = library.slice(0, book).concat(library.slice(book + 1));
+    library = temp;
+    localStorage.setItem('books', JSON.stringify(library));
+    if (!library.length) {
+      localStorage.removeItem('books');
+      localStorage.setItem('old', 'true');
+    }
+    location.reload();
+  });
+
   item.appendChild(remove);
-  shelves.appendChild(item);
   }
 }
 
+let start = [
+  { rating: 5, title: "Battle Royale", author: "Koushun Takami", pages: "647", status: "Finished", genre: "Horror", cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1397576215l/18280791.jpg", start: "", end: "", review: "" },
+  { rating: 5, title: "Circe", author: "Madeline Miller", pages: "336", status: "Finished", genre: "Fantasy", cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1544457476l/32993458._SY475_.jpg", start: "2021-07-11", end: "2021-07-12", review: "So good." }
+]
+
+if (!localStorage.getItem('books') && !localStorage.getItem('old')) {
+  localStorage.setItem('examples', JSON.stringify(start));
+  let books = JSON.parse(localStorage.getItem('examples'));
+  shelve(books);
+}
