@@ -55,7 +55,7 @@ if (!localStorage.getItem('books')) {
   storage.textContent = 'your shelves are empty';
 } else {
   let clear = makebtn('Delete All Books');
-  let remove = makebtn('Remove Books');
+  let remove = makebtn('Edit');
   let close = makebtn('Close');
 
   storage.textContent = '';
@@ -171,9 +171,10 @@ function shelve(books) {
   }
 
   let remove = catalogue('div', 'remove',
-    catalogue('button', 'remove-btn', 'Delete'));
+    catalogue('button', 'remove-btn', 'Delete Book'),
+    catalogue('button', 'edit-btn', 'Change Status'));
 
-  remove.childNodes[0].addEventListener('click', () => {
+  remove.firstChild.addEventListener('click', () => {
     let temp = library.slice(0, book).concat(library.slice(book + 1));
     library = temp;
     localStorage.setItem('books', JSON.stringify(library));
@@ -183,6 +184,26 @@ function shelve(books) {
     }
     location.reload();
   });
+
+  remove.childNodes[1].addEventListener('click', () => {
+    let change = catalogue('div', 'change', 
+      inputStatus('Finished'),
+      inputStatus('Reading'),
+      inputStatus('To Read'));
+    remove.appendChild(change);
+
+  }, {once: true});
+
+  function inputStatus(label) {
+    let btn = document.createElement('button');
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      library[book].status = label;
+      localStorage.setItem('books', JSON.stringify(library));
+      location.reload();
+    });
+    return btn;
+  }
 
   item.appendChild(remove);
   }
