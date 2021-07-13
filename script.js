@@ -129,84 +129,83 @@ function shelve(books) {
         catalogue('div', 'book-ex', 
           catalogue('div', '', 
             catalogue('b', '', 'Status: '), key.status)))));
-  shelves.appendChild(item);
+    
+    shelves.appendChild(item);
   
-  if (key.review) {
-    let line = catalogue('div', 'item-bottom',
-    catalogue('div', 'book-review', 
-      catalogue('div', '',
-        catalogue('b', '', 'Review: '), key.review)));
-    item.appendChild(line);
-  }
-
-  if (key.cover) {
-    let parent = item.childNodes[0];
-    let sibling = item.childNodes[0].childNodes[0];
-    let cover = catalogue('div', 'cover', 
-      catalogue('img', ''));
-    cover.childNodes[0].setAttribute('src', key.cover);
-    parent.insertBefore(cover, sibling);
-  }
-
-  let lines = item.firstChild.lastChild.lastChild;
-
-  addLine(key.pages, 'Page Count: ');
-  addLine(key.genre, 'Genre: ');
-  addLine(key.start, 'Date Started: ');
-  addLine(key.end, 'Date Finished: ');
-
-  function addLine(value, header) {
-    if (value) {
-      let line = catalogue('div', '',
-        catalogue('b', '', header), value);
-      lines.appendChild(line);
+    if (key.review) {
+      let line = catalogue('div', 'item-bottom',
+      catalogue('div', 'book-review', 
+        catalogue('div', '',
+          catalogue('b', '', 'Review: '), key.review)));
+      item.appendChild(line);
     }
-  }
 
-  if (key.rating > 0) {
-    let star = '';
-    for (let i = 0; i < Number(key.rating); i++) star += '⭐';
-    let line = catalogue('div', 'star', 
-      catalogue('b', '', 'Rating: '),
-      document.createTextNode(star));
-      lines.appendChild(line);
-  }
-
-  let remove = catalogue('div', 'remove',
-    catalogue('button', 'remove-btn', 'Delete Book'),
-    catalogue('button', 'edit-btn', 'Change Status'));
-
-  remove.firstChild.addEventListener('click', () => {
-    let temp = library.slice(0, book).concat(library.slice(book + 1));
-    library = temp;
-    localStorage.setItem('books', JSON.stringify(library));
-    if (!library.length) {
-      localStorage.removeItem('books');
-      localStorage.setItem('old', 'true');
+    if (key.cover) {
+      let parent = item.childNodes[0];
+      let sibling = item.childNodes[0].childNodes[0];
+      let cover = catalogue('div', 'cover', 
+        catalogue('img', ''));
+      cover.childNodes[0].setAttribute('src', key.cover);
+      parent.insertBefore(cover, sibling);
     }
-    location.reload();
-  });
 
-  remove.childNodes[1].addEventListener('click', () => {
-    let change = catalogue('div', 'change', 
-      inputStatus('Finished'),
-      inputStatus('Reading'),
-      inputStatus('To Read'));
-    remove.appendChild(change);
+    let lines = item.firstChild.lastChild.lastChild;
 
-  }, {once: true});
+    addLine(key.pages, 'Page Count: ');
+    addLine(key.genre, 'Genre: ');
+    addLine(key.start, 'Date Started: ');
+    addLine(key.end, 'Date Finished: ');
 
-  function inputStatus(label) {
-    let btn = document.createElement('button');
-    btn.textContent = label;
-    btn.addEventListener('click', () => {
-      library[book].status = label;
+    function addLine(value, header) {
+      if (value) {
+        let line = catalogue('div', '',
+          catalogue('b', '', header), value);
+        lines.appendChild(line);
+      }
+    }
+
+    if (key.rating > 0) {
+      let star = '';
+      for (let i = 0; i < Number(key.rating); i++) star += '⭐';
+      let line = catalogue('div', 'star', 
+        catalogue('b', '', 'Rating: '), star);
+        lines.appendChild(line);
+    }
+
+    let remove = catalogue('div', 'remove',
+      catalogue('button', 'remove-btn', 'Delete Book'),
+      catalogue('button', 'edit-btn', 'Change Status'));
+
+    remove.firstChild.addEventListener('click', () => {
+      let temp = library.slice(0, book).concat(library.slice(book + 1));
+      library = temp;
       localStorage.setItem('books', JSON.stringify(library));
+      if (!library.length) {
+        localStorage.removeItem('books');
+        localStorage.setItem('old', 'true');
+      }
       location.reload();
     });
-    return btn;
-  }
 
+    remove.childNodes[1].addEventListener('click', () => {
+      let change = catalogue('div', 'change', 
+        inputStatus('Finished'),
+        inputStatus('Reading'),
+        inputStatus('To Read'));
+      remove.appendChild(change);
+
+    }, {once: true});
+
+    function inputStatus(label) {
+      let btn = document.createElement('button');
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        library[book].status = label;
+        localStorage.setItem('books', JSON.stringify(library));
+        location.reload();
+      });
+      return btn;
+    }
   item.appendChild(remove);
   }
 }
