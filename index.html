@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="script.js" defer></script>
+</head>
+<body>
+  <!-- <aside>
+    <section id="sign">
+      <label>
+        <input type="text" name="name" autocomplete="off" required>
+        <span id="alt-name">Enter Your Name</span>
+      </label>
+    </section>
+  </aside> -->
+  <main>
+    <div id="side">
+      <div class="form">
+        <form autocomplete="off">
+          <div class="rating">
+            <span>
+              <input type="radio" name="rating" id="rate-5" value="5">
+              <label for="rate-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+              </label>
+            </span>
+            <span>
+              <input type="radio" name="rating" id="rate-4" value="4">
+              <label for="rate-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+              </label>
+            </span>
+            <span>
+              <input type="radio" name="rating" id="rate-3" value="3">
+              <label for="rate-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+              </label>
+            </span>
+            <span>
+              <input type="radio" name="rating" id="rate-2" value="2">
+              <label for="rate-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+              </label>
+            </span>
+            <span>
+              <input type="radio" name="rating" id="rate-1" value="1">
+              <label for="rate-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+              </label>
+            </span>
+            <span>
+              <input type="radio" name="rating" id="rate-0" value="0" checked>
+            </span>
+          </div>
+          <label class="text">
+            <input type="text" name="title" required>
+            <span class="placeholder">Book Title</span>
+          </label>
+          <label class="text">
+            <input type="text" name="author" required>
+            <span class="placeholder">Author</span>
+          </label>
+          <label class="text">
+            <input type="number" min="0" name="pages">
+            <span class="placeholder">Page Count</span>
+          </label>
+          <label class="select">
+            <input type="text" list="progress" name="status" data-type="select" required>
+            <span class="placeholder">Progress</span>
+            <datalist id="progress">
+              <option value="Finished"></option>
+              <option value="Reading"></option>
+              <option value="To Read"></option>
+            </datalist>
+          </label>
+          <label class="select">
+            <input type="text" list="genres" name="genres" data-type="select">
+            <span class="placeholder">Genre</span>
+            <datalist id="genres">
+              <option value="Fantasy"></option>
+              <option value="Science Fiction"></option>
+              <option value="History Fiction"></option>
+              <option value="Romance"></option>
+              <option value="Contemporary"></option>
+              <option value="Mystery/Thriller"></option>
+              <option value="Horror"></option>
+              <option value="Nonfiction"></option>
+            </datalist>
+          </label>
+          <label class="file">
+            <input type="url" name="cover">
+            <span class="placeholder">Cover Image URL</span>
+          </label>
+          <label class="date">
+            <input type="date" name="started">
+            <span class="placeholder">Date Started</span>
+          </label>
+          <label class="date">
+            <input type="date" name="finished">
+            <span class="placeholder">Date Finished</span>
+          </label>
+          <div class="review">
+            <textarea maxlength="250" name="review"></textarea>
+            <span class="placeholder">Review</span>
+            <span class="count"></span>
+          </div>
+          <button type="submit">Add Book</button>
+        </form>
+      </div>
+    </div>
+    <div id="shelves">
+      <div id="greet" class="item">
+        <div id="greet-title">hello <span id="name"></span></div>
+        <div id="greet-msg">welcome to your virtual library</div>
+        <div id="controls">
+          <div id="storage"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript">
+
+    function moveTitle(element) {
+      if (element.value) {
+        element.classList.add('complete');
+      } else {
+        element.classList.remove('complete');
+      }
+    }
+
+    function changeColor(element) {
+      if (element.value) {
+        element.style.color = '#000';
+      } else {
+        element.style.color = '#FFF';
+      }
+    }
+
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      if (input['type'] === 'date') {
+        input.addEventListener('click', event => {
+          event.target.classList.add('complete');
+        });
+        input.addEventListener('blur', event => changeColor(event.target));
+      }
+      if (input.dataset.type === 'select') {
+        input.addEventListener('click', event => {
+          event.target.classList.add('complete');
+        });
+      }
+      input.addEventListener('blur', event => moveTitle(event.target));
+    });
+
+    const textarea = document.querySelector('textarea');
+    const count = document.querySelector('.count');
+    textarea.addEventListener('blur', event => moveTitle(event.target));
+    textarea.addEventListener('input', event => {
+      event.target.style.height = 'auto';
+      event.target.style.height = `${event.target.scrollHeight}px`;
+      count.textContent = `${event.target.value.length} / 250`;
+    });
+    
+    const stars = document.querySelectorAll('input[name="rating"]');
+    const spans = document.querySelectorAll('.rating span')
+    stars.forEach(star => {
+      if (star['id'] === 'rate-0') return;
+      star.removeAttribute('checked');
+      star.addEventListener('click', event => {
+        spans.forEach(span => span.classList.remove('checked'));
+        event.target.parentNode.classList.add('checked');
+        document.querySelector('#rate-0').removeAttribute('checked');
+      });
+    });
+
+  </script>
+</body>
+</html>

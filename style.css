@@ -1,0 +1,449 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap');
+
+:root {
+  --varela: 'Varela Round', sans-serif;
+  --roboto: 'Roboto', sans-serif;
+  --second-bg: #FFFFFF;
+  --main-bg: #F6F7FB;
+  --text: #1D1E1F;
+  --accent: #FEB1B3;
+  --accent2: #FAF0F1;
+  
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  background-color: var(--second-bg);
+}
+
+section {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+section label {
+  position: relative;
+}
+
+section input {
+  appearance: none;
+  width: 330px;
+  color: #1D1E1F;
+  text-align: center;
+  font-family: var(--varela);
+  font-size: 40px;
+  outline: none;
+  border: 0;
+}
+
+section span {
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  color: #DFE0F2;
+  font-family: var(--varela);
+  font-size: 40px;
+}
+
+.hide { opacity: 0; }
+
+main {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100vw; 
+  /* overflow: hidden; */
+  margin: 0;
+  padding: 0;
+  background-color: var(--main-bg);
+}
+
+#side {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 340px;
+  height: 100vh;
+}
+
+form {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  align-items: center;
+  width: 250px;
+  padding: 20px;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  transform: scale(-1, 1);
+}
+
+.rating span { position: relative; }
+.rating input { position: absolute; top: 0; left: 0; opacity: 0; }
+.rating label {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  fill: #FFFFFF;
+  text-align: center;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.rating span:hover ~ span label,
+.rating span:hover label,
+.rating span.checked label,
+.rating span.checked ~span label {
+  fill: #FEB1B3;
+}
+
+.text, .select, .file, .date, .file {
+  /* flex: 0 0 calc(50% - 20px); */
+  width: 100%;
+  position: relative;
+  margin: 10px;
+}
+
+.text input,
+.select input,
+.file input {
+  appearance: none;
+  width: 100%;
+  padding: 10px 15px;
+  color: #1D1E1F;
+  outline: none;
+  border: 0;
+  border-radius: 2px;
+  background: 
+    linear-gradient(90deg, #FEB1B3, #FEB1B3) left bottom/0 2px no-repeat,
+    linear-gradient(90deg, #FAF0F1, #FAF0F1) left bottom/100% 2px no-repeat,
+    linear-gradient(90deg, #FFFFFF, #FFFFFF) left bottom/100% no-repeat;
+  transition: background-size 0.3s ease;
+}
+
+.text .placeholder,
+.select .placeholder,
+.file .placeholder {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  transition: top 0.3s ease,
+              font-size 0.3s ease;
+}
+
+.date .placeholder {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  transition: top 0.3s ease,
+              font-size 0.3s ease;
+}
+
+.text input:focus, 
+.select input:focus,
+.file input:focus,
+.date input:focus {
+  background-size: 100% 2px, 100% 2px, 100%;
+}
+
+.text input:focus + .placeholder,
+.select input:focus + .placeholder,
+.text input.complete + .placeholder,
+.select input.complete + .placeholder,
+.date input.complete + .placeholder,
+.file input:focus + .placeholder,
+.file input.complete + .placeholder {
+  top: -7px;
+  font-size: 10px;
+  background-color: #FAF0F1;
+  padding: 0 4px;
+} 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+.select input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: relative;
+  top: -1px;
+}
+
+.file input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.date-title {
+  position: absolute;
+  top: -20px;
+  left: 15px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 10px;
+}
+
+.date input {
+  width: 100%;
+  padding: 10px 15px;
+  color: transparent;
+  font-family: var(--roboto);
+  font-size: 12px;
+  text-transform: uppercase;
+  outline: none;
+  border: 0;
+  border-radius: 2px;
+  background: 
+    linear-gradient(90deg, #FEB1B3, #FEB1B3) left bottom/0 2px no-repeat,
+    linear-gradient(90deg, #FAF0F1, #FAF0F1) left bottom/100% 2px no-repeat,
+    linear-gradient(90deg, #FFFFFF, #FFFFFF) left bottom/100% no-repeat;
+  transition: background-size 0.3s ease;
+}
+
+.date input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  color: transparent;
+  background: transparent;
+}
+
+.review {
+  position: relative;
+  display: flex;
+  flex-flow: column-wrap;
+  justify-content: center;
+  width: calc(100% - 20px);
+}
+
+.review textarea {
+  appearance: none;
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  padding: 15px;
+  resize: none;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  border: 0;
+  border-radius: 2px;
+  background: 
+    linear-gradient(90deg, #FEB1B3, #FEB1B3) left bottom/0 2px no-repeat,
+    linear-gradient(90deg, #FAF0F1, #FAF0F1) left bottom/100% 2px no-repeat,
+    linear-gradient(90deg, #FFFFFF, #FFFFFF) left bottom/100% no-repeat;
+}
+
+.review .placeholder {
+  position: absolute;
+  top: 25px;
+  left: 15px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  transition: top 0.3s ease,
+              font-size 0.3s ease;
+}
+
+.review textarea:focus + .placeholder,
+.review textarea.complete + .placeholder {
+  top: 7px;
+  font-size: 10px;
+  background-color: #FAF0F1;
+  padding: 0 4px;
+}
+
+.review textarea:focus {
+  outline: none;
+  border: 0;
+  background-size: 100% 2px, 100% 2px, 100%;
+  transition: background-size 0.3s ease;
+}
+
+.review .count {
+  position: absolute;
+  right: 10px;
+  bottom: -5px;
+  color: #C3C4C8;
+  font-family: var(--roboto);
+  font-size: 10px;
+}
+
+button {
+  appearance: none;
+  margin: 15px 0;
+  padding: 10px 15px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  outline: none;
+  border: 0;
+  border-radius: 2px;
+  background-color: #E7BDD3;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #5A62B3;
+}
+
+#shelves {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1;
+  justify-content: flex-start;
+  align-content: space-evenly;
+  align-items: flex-start;
+}
+
+#storage {
+  margin: 20px 0;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+}
+
+#storage button {
+  margin: 10px 10px 0 0;
+}
+
+#greet {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: center;
+  background-color: transparent;
+}
+
+#greet-title {
+  font-family: var(--varela);
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1.5em;
+}
+
+#greet-msg {
+  font-family: var(--roboto);
+  font-size: 12px;
+}
+
+.remove {
+  visibility: hidden;
+  position: relative;
+  top: -60px;
+  height: 0;
+  z-index: -1;
+  cursor: pointer;
+  text-align: center;
+  transition: top 0.3s ease,
+              visibility 0.3s ease,
+              height 0.3s ease;
+}
+
+
+.move {
+  visibility: visible;
+  top: 0px;
+  z-index: 1;
+  height: 60px;
+}
+
+.item {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  width: 340px;
+  margin: 30px;
+  color: #1D1E1F;
+  font-family: var(--roboto);
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+.item b {
+  color: #383874;
+}
+
+.title {
+  color: #383874;
+  font-family: var(--varela);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.item-top {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start; 
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+
+.book-info {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-evenly;
+  height: auto;
+}
+
+.item-bottom {
+  padding: 20px;
+  background-color: #DFE0F2;
+}
+
+.cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 180px;
+  margin-right: 20px;
+  overflow: hidden;
+}
+
+.cover img {
+  align-self: flex-end;
+  width: 120px;
+  height: auto;
+}
