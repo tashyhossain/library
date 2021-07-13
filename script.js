@@ -102,7 +102,9 @@ form.addEventListener('submit', e => {
   let book = new Book(...fieldvalues);
   library.push(book);
   localStorage.setItem('books', JSON.stringify(library));
+  e.preventDefault();
   form.reset();
+  location.reload();
 });
 
 function catalogue(type, classvalue, ...children) {
